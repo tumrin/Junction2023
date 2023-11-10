@@ -14,4 +14,3 @@ pub fn CardInfo() -> impl IntoView {
         </div>
     }
 }
-
