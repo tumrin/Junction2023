@@ -9,4 +9,3 @@ pub fn CardTitle() -> impl IntoView {
         </div>
     }
 }
-
