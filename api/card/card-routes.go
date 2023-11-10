@@ -6,6 +6,6 @@ func CardRoutes(app fiber.Router) {
 	router := app.Group("/api/card")
 
 	// GET
-	router.Get("/", GetCardHandler)
+	router.Get("/", GetCardsHandler)
 	router.Get("/:id", GetSingleCardHandler)
 }

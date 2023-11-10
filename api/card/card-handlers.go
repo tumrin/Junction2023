@@ -8,8 +8,8 @@ import (
 
 var validate = validator.New(validator.WithRequiredStructEnabled()) 
 
-func GetCardHandler(c *fiber.Ctx) error {
-	return c.SendString("Test")
+func GetCardsHandler(c *fiber.Ctx) error {
+	return nil
 }
 
 func GetSingleCardHandler(c *fiber.Ctx) error {
@@ -30,7 +30,7 @@ func GetSingleCardHandler(c *fiber.Ctx) error {
 	card, err := GetSingleCard(_id)
 	
 	if err != nil {
-		return c.Status(fiber.StatusNotFound).SendString(err.Error())
+		return err
 	}
 
 	return c.Status(fiber.StatusOK).JSON(card)
