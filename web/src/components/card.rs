@@ -1,9 +1,9 @@
+mod buttons;
 mod card_info;
 mod card_title;
 
 use crate::components::card::card_info::CardInfo;
 use crate::components::card::card_title::CardTitle;
-use leptos::leptos_dom::logging::{console_error, console_log};
 use leptos::*;
 use serde::Deserialize;
 use std::time::Duration;
@@ -31,14 +31,14 @@ pub fn Card() -> impl IntoView {
                 Ok(card) => {
                     view! {
                         <div class="card" on:click=move |_e| show_info.set(!show_info.get())>
-                            <CardTitle title=card.title/>
+                            <CardTitle title=card.title.clone()/>
                             <AnimatedShow
                                 when=show_info
                                 hide_delay=Duration::from_millis(500)
                                 show_class="slide"
                                 hide_class="hide"
                             >
-                                <CardInfo/>
+                                <CardInfo content=card.content.clone()/>
                             </AnimatedShow>
                         </div>
                     }
@@ -60,6 +60,7 @@ async fn fetch_card(card_id: &str) -> Result<Card, error::Error> {
             .await?;
     Ok(res)
 }
+
 
 
 
