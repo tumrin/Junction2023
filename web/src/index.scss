@@ -1,9 +1,13 @@
 @charset "utf-8";
-@import "components/card.scss";
-<<<<<<< HEAD
-@import "components/top_bar.scss";
-@import "components/profile.scss";
-=======
->>>>>>> 8c7bc6ba069faed496423257e18915b98dec65d9
+
+@use "components/profile.scss";
+@use "components/card.scss";
+
+$background: #e3f2c1;
+$highlight-color: #c9dbb2;
+$text-color: #aac8a7;
+
 html {
+  background-color: $background;
+  color: $text-color;
 }
