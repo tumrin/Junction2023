@@ -3,6 +3,7 @@ package main
 import (
 	"junction-api/card"
 	"junction-api/db"
+	"junction-api/user"
 	"junction-api/utils"
 	"log"
 
@@ -25,8 +26,9 @@ func main() {
 	app.Use(helmet.New())
 	app.Use(cors.New())	
 
-	// todo.TodoRoutes(app)
+	// routes
 	card.CardRoutes(app)
+	user.UserRoute(app)
 	
 	// simple 404-handler
 	app.Use(func (c *fiber.Ctx) error {
