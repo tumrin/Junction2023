@@ -1,11 +1,5 @@
+@import "card/card_info.scss";
+@import "card/card_title.scss";
+
 .card {
-  border: 1px solid black;
-  max-width: 400px;
-  height: 600px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: black 5px 5px 5px;
-  border-radius: 10px;
 }
