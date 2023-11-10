@@ -6,5 +6,5 @@ func UserRoute(app fiber.Router) {
 	router := app.Group("/api/user")
 
 	// GET
-	router.Get("/", GetUserHandler)
+	router.Get("/:id", GetUserHandler)
 }

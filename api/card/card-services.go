@@ -18,8 +18,8 @@ func GetSingleCard(_id primitive.ObjectID) (Card, error) {
 	err := db.DbRef.Collection("card").FindOne(context.TODO(), filter).Decode(&card)
 
 	if err != nil {
-		fiber.NewError(fiber.ErrNotFound.Code, "missing card")
+		return card, fiber.NewError(fiber.ErrNotFound.Code, "missing card")
 	}
 
-	return card, err
+	return card, nil
 }
