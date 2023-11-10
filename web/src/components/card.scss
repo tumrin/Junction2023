@@ -1,8 +1,9 @@
-@import "card/card_info.scss";
-@import "card/card_title.scss";
+@use "card/card_info.scss";
+@use "card/card_title.scss";
 
 .card {
 }
+
 @keyframes slide {
 		from { opacity: 0; }
 		to { opacity: 1; }

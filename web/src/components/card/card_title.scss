@@ -1,3 +1,5 @@
+$card-background: #F6FFDE;
+
 .card-title{
   border: 1px solid black;
   height: 600px;
@@ -8,5 +10,6 @@
   align-items: center;
   margin: auto; 
   max-width: 400px;
-  padding: 1rem
+  padding: 1rem;
+  background-color: $card-background;
 }

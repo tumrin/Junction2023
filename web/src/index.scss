@@ -1,6 +1,13 @@
 @charset "utf-8";
-@import "components/card.scss";
+@use "components/card.scss";
+
+$background: #E3F2C1;
+$highlight-color: #C9DBB2;
+$text-color: #AAC8A7;
+
 html {
+  background-color: $background;
+  color: $text-color;
 }
 
 
