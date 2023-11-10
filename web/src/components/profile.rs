@@ -5,8 +5,8 @@ use serde::Deserialize;
 struct Profile{
     id: String,
     username: String,
-    in_progress: String,
-    liked_cards: Vec<String>
+    inProgress: String,
+    likedCards: Vec<String>
 
 }
 
@@ -24,12 +24,14 @@ pub fn Profile() -> impl IntoView {
                     view! {
                         <div class="profile">
                             <span>{profile.username}</span>
-                            <span>likes: {profile.liked_cards.len()}</span>
-                            <span>{profile.in_progress}</span>
+                            <span>likes: {profile.likedCards.len()}</span>
+                            <span>{profile.inProgress}</span>
                         </div>
                     }
                 }
-                Err(_e) => view! { <div>{"Error loading profile"}</div> },
+                Err(e) => {
+                    console_log(&format!("error: {:?}", e));
+                    view! { <div>{"Error loading profile"}</div> }},
                 
             }
         }else {
@@ -52,6 +54,16 @@ async fn fetch_profile(user_id: &str) -> Result<Profile, error::Error> {
 
     Ok(res)
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

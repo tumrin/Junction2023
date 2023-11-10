@@ -61,7 +61,3 @@ async fn fetch_card(card_id: &str) -> Result<Card, error::Error> {
     Ok(res)
 }
 
-
-
-
-
