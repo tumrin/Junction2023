@@ -1,11 +1,15 @@
+mod card_info;
+mod card_title;
+
 use leptos::*;
+
+use crate::components::card::card_info::CardInfo;
 
 #[component]
 pub fn Card() -> impl IntoView {
     view! {
         <div class="card">
-            <h1>Title</h1>
-            <p>asdf</p>
+            <CardInfo/>
         </div>
     }
 }

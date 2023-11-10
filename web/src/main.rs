@@ -1,6 +1,6 @@
 use leptos::*;
 
-use crate::components::{card::Card, top_bar::TopBar};
+use crate::components::card::Card;
 
 mod components;
 mod pages;
@@ -11,9 +11,6 @@ fn main() {
 
 #[component]
 fn App() -> impl IntoView {
-    view! {
-        <TopBar/>
-        <Card/>
-    }
+    view! { <Card/> }
 }
 
