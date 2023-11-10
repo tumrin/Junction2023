@@ -9,3 +9,4 @@ edition = "2021"
 leptos = { version = "0.5.2", features = ["csr", "nightly"] }
 leptos_icons = { version = "0.1.0" }
 reqwasm = "0.5.0"
+serde = { version = "1.0.192", features = ["derive"] }

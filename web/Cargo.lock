@@ -1889,6 +1889,7 @@ dependencies = [
  "leptos",
  "leptos_icons",
  "reqwasm",
+ "serde",
 ]
 
 [[package]]
