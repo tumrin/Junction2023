@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  mongodb:
+    container_name: junc-api-db
+    image: mongo:latest
+    volumes:
+      - junc-volume:/data/db:rw
+    ports:
+      - 27017:27017
+
+volumes:
+  junc-volume:
