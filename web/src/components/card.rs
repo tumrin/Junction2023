@@ -16,8 +16,8 @@ struct Card {
 #[component]
 pub fn Card() -> impl IntoView {
     let show_info = create_rw_signal(false);
-    let (card, set_card) = create_signal::<Option<Card>>(None);
-    let cards = create_local_resource(card, fetch_card);
+    let card = create_rw_signal::<Option<Card>>(None);
+    create_local_resource(card, fetch_card);
     view! {
         <div class="card" on:click=move |_e| show_info.set(!show_info.get())>
             <CardTitle/>
@@ -28,10 +28,10 @@ pub fn Card() -> impl IntoView {
     }
 }
 
-async fn fetch_card(card: Option<Card>) -> Result<Card, Error> {
+async fn fetch_card(_: Option<Card>) -> Result<Card, Error> {
     reqwasm::http::Request::get("http://localhost:9000")
         .send()
-        .await;
+        .await?;
     Ok(Card {
         title: "".to_string(),
     })
