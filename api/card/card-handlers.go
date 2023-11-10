@@ -9,7 +9,13 @@ import (
 var validate = validator.New(validator.WithRequiredStructEnabled()) 
 
 func GetCardsHandler(c *fiber.Ctx) error {
-	return nil
+	card, err := FetchRandomCard()
+
+	if err != nil {
+		return err
+	}
+
+	return c.Status(fiber.StatusOK).JSON(card)
 }
 
 func GetSingleCardHandler(c *fiber.Ctx) error {
@@ -27,7 +33,7 @@ func GetSingleCardHandler(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).SendString("id conversion failed")
 	}
 
-	card, err := GetSingleCard(_id)
+	card, err := FetchSingleCard(_id)
 	
 	if err != nil {
 		return err
