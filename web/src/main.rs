@@ -112,27 +112,7 @@ fn App() -> impl IntoView {
         }
     }
 }
-async fn generate_user(_: ()) -> Result<User, leptos::error::Error> {
-    let res: User = reqwasm::http::Request::get("http://localhost:3000/api/user/create")
-        .send()
-        .await?
-        .json::<User>()
-        .await?;
-    Ok(res)
-}
-
-async fn fetch_user(id: String) -> Result<User, leptos::error::Error> {
-    console_log("fetch");
-
-    let res: User = reqwasm::http::Request::get(&format!("http://localhost:3000/api/user/{id}"))
-        .send()
-        .await?
-        .json::<User>()
-        .await?;
-    Ok(res)
-}
 async fn fetch_card(_: ()) -> Result<Card, leptos::error::Error> {
-    console_log("fetch2");
     let res: Card = reqwasm::http::Request::get("http://localhost:3000/api/card")
         .send()
         .await?
