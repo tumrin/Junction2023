@@ -8,12 +8,12 @@ $profile-background: #c9dbb2;
   align-items: center;
   background-color: $profile-background;
   max-width: 400px;
-  height: 150px;
+  height: 100%;
   border: solid #000;
   border-radius: 0 0 10px 10px;
   border-width: 0 1px 1px 1px;
   gap: 10px;
-  padding: 1rem;
+  padding: 10rem 1rem 1rem 1rem;
 
   .likedCards {
     display: flex;

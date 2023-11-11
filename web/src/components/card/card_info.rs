@@ -8,3 +8,4 @@ pub fn CardInfo(content: String) -> impl IntoView {
         </div>
     }
 }
+

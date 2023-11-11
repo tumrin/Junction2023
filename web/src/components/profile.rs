@@ -3,37 +3,31 @@ use std::{vec, fmt::format, time::Duration};
 use leptos::{*, leptos_dom::logging::console_log};
 use serde::Deserialize;
 
+use crate::UserContext;
+
 use super::card::Card;
-
-#[derive(Clone, PartialEq, Debug, Deserialize)]
-struct Profile{
-    id: String,
-    username: String,
-    inProgress: String,
-    likedCards: Vec<String>
-
-}
-
 
 #[component]
 pub fn Profile() -> impl IntoView {
-    let user_id = create_rw_signal("654e83471029b952630a92dd");
-    let profile = create_local_resource(move|| user_id.get(), fetch_profile);
+    let user = use_context::<UserContext>().unwrap().0;
+
+   // let user_id = create_rw_signal("654e83471029b952630a92dd");
+    //let profile = create_local_resource(move|| user_id.get(), fetch_profile);
     let likedCards = create_rw_signal::<Vec<String>>(vec![]);
     let showLikes = create_rw_signal(false);
-    let a = fetch_cards(likedCards.get().clone());
+    //let a = fetch_cards(likedCards.get().clone());*/
     
     move||{
-        if let Some(profile) = profile.get()  {
-            match profile {
-                Ok(profile) => {
-                    likedCards.set(profile.likedCards.clone());
+        if let Some(user) = user.get()  {
+            let user1 = user.clone();
+            console_log(&format!("{:?}", user1));
+            // create rw signal likecards
+            likedCards.set(user1.likedCards.unwrap_or(vec![]));
+      
                     view! {
                         <div class="profile">
-                            <span>{profile.username}</span>
-                            <span on:click=move |_| {
-                                showLikes.set(!showLikes.get())
-                            }>likes: {profile.likedCards.len()}</span>
+                            <span>{user1.username}</span>
+                            <span on:click=move |_| {}>likes: {likedCards.get().len()}</span>
                             <ul class="likedCards">
                                 <AnimatedShow
                                     when=showLikes
@@ -51,31 +45,23 @@ pub fn Profile() -> impl IntoView {
                                     </For>
                                 </AnimatedShow>
                             </ul>
-                            <span>on progress: {profile.inProgress}</span>
+                            <span>on progress: {fetch_card(user1.inProgress)}</span>
                         </div>
                     }
-                }
-                Err(e) => {
-                    view! { <div>{"Error loading profile"}</div> }},
                 
-            }
+     
         }else {
-            view! { <div class="profile"></div> }
+            view! {
+                <div class="profile">
+                    <span>loading...</span>
+                </div>
+            }
         }
     }
 }
 
 
-async fn fetch_profile(user_id: &str) -> Result<Profile, error::Error> {
-    let res: Profile =
-    reqwasm::http::Request::get(&format!("http://127.0.0.1:3000/api/user/{user_id}"))
-    .send()
-    .await?
-    .json()
-    .await?;
 
-    Ok(res)
-}
 
 async fn fetch_cards(card_ids: Vec<String>) -> Result<Vec<Card>, error::Error> {
 
@@ -91,6 +77,80 @@ async fn fetch_cards(card_ids: Vec<String>) -> Result<Vec<Card>, error::Error> {
 
     Ok(cards)
 }
+
+
+
+/*async fn fetch_card(card_id: String) -> Result<Card, error::Error> {
+
+    let res: Card = reqwasm::http::Request::get(&format!("http://127.0.0.1:3000/api/card/{card_id}", card_id=card_id))
+    .send()
+    .await?
+    .json()
+    .await?;
+
+    Ok(res)
+}*/
+
+fn fetch_card(card_id: String) {
+    spawn_local(async move {
+        reqwasm::http::Request::get(&format!("http://localhost:3000/api/card/{card_id}",))
+            .send()
+            .await
+            .unwrap();
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
