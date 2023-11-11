@@ -13,4 +13,19 @@ $profile-background: #c9dbb2;
   border-width: 0 1px 1px 1px;
   gap: 10px;
   padding: 1rem;
+
+  .likedCards {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+
+    li {
+      list-style-type: none;
+    }
+  }
 }
