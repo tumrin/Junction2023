@@ -7,7 +7,7 @@ use crate::components::card::Card;
 mod components;
 mod pages;
 
-pub const SERVER: &str = "http://94.237.38.188:3000";
+pub const SERVER: &str = "http://94.237.38.188:80";
 
 #[derive(Debug, Deserialize, Clone)]
 struct User {
