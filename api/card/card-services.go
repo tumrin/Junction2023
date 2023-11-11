@@ -10,11 +10,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func FetchSingleCard(_id primitive.ObjectID) (CardInfo, error) {
+func FetchSingleCard(_id primitive.ObjectID) (db.CardInfo, error) {
 
 	filter := bson.D{{Key: "_id", Value: _id}}
 
-	var card CardInfo
+	var card db.CardInfo
 
 	err := db.DbRef.Collection("card").FindOne(context.TODO(), filter).Decode(&card)
 
@@ -25,10 +25,10 @@ func FetchSingleCard(_id primitive.ObjectID) (CardInfo, error) {
 	return card, nil
 }
 
-func FetchRandomCard() (CardInfo, error) {
+func FetchRandomCard() (db.CardInfo, error) {
 	aggregation := bson.D{{Key: "$sample", Value: bson.D{{Key: "size", Value: 1}}}}
 
-	var card CardInfo
+	var card db.CardInfo
 
 	cursor, err := db.DbRef.Collection("card").Aggregate(context.TODO(), mongo.Pipeline{aggregation})
 
