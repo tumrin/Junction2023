@@ -3,6 +3,8 @@ use std::{vec, fmt::format, time::Duration};
 use leptos::{*, leptos_dom::logging::console_log};
 use serde::Deserialize;
 
+use super::card::Card;
+
 #[derive(Clone, PartialEq, Debug, Deserialize)]
 struct Profile{
     id: String,
@@ -19,7 +21,6 @@ pub fn Profile() -> impl IntoView {
     let profile = create_local_resource(move|| user_id.get(), fetch_profile);
     let likedCards = create_rw_signal::<Vec<String>>(vec![]);
     let showLikes = create_rw_signal(false);
-    console_log(&format!("profile: {:?}", profile));
 
     move||{
         if let Some(profile) = profile.get()  {
@@ -54,7 +55,6 @@ pub fn Profile() -> impl IntoView {
                     }
                 }
                 Err(e) => {
-                    console_log(&format!("error: {:?}", e));
                     view! { <div>{"Error loading profile"}</div> }},
                 
             }
@@ -66,18 +66,35 @@ pub fn Profile() -> impl IntoView {
 
 
 async fn fetch_profile(user_id: &str) -> Result<Profile, error::Error> {
-    console_log("fetching profile");
     let res: Profile =
     reqwasm::http::Request::get(&format!("http://127.0.0.1:3000/api/user/{user_id}"))
     .send()
     .await?
     .json()
     .await?;
-    console_log(&format!("profile: {:?}", res));
 
 
     Ok(res)
 }
+
+async fn fetch_card(card_id: &str) -> Result<Card, error::Error> {
+    let res: Card = reqwasm::http::Request::get(&format!("http://127.0.0.1:3000/api/card/{card_id}"))
+        .send()
+        .await?
+        .json()
+        .await?;
+    Ok(res)
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

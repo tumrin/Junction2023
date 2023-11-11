@@ -4,6 +4,7 @@ mod card_title;
 
 use crate::components::card::card_info::CardInfo;
 use crate::components::card::card_title::CardTitle;
+use crate::components::profile::Profile;
 use leptos::*;
 use serde::Deserialize;
 use std::time::Duration;
@@ -23,6 +24,7 @@ pub fn Card(card: Card) -> impl IntoView {
 
     view! {
         <div class="card" on:click=move |_e| show_info.set(!show_info.get())>
+            <Profile/>
             <CardTitle title=card.title.clone() video=card.vidLink.clone()/>
             <AnimatedShow
                 when=show_info
