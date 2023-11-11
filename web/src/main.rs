@@ -25,17 +25,18 @@ fn App() -> impl IntoView {
             // Check if request was succesfull
             match card_res {
                 Ok(card_res) => {
-                    view! {<div class="app">
-                        <button on:click=move |_e| card.refetch()>previous</button>
+                    view! {
+                        <div class="app">
+                            <button on:click=move |_e| card.refetch()>previous</button>
                             <Card card=card_res/>
-                        <button on:click=move |_e| card.refetch()>next</button>
+                            <button on:click=move |_e| card.refetch()>next</button>
                         </div>
                     }
                 }
-                Err(_e) => view! { <div>{"Error loading card"}</div>},
+                Err(_e) => view! { <div>{"Error loading card"}</div> },
             }
         } else {
-            view! {<div class="card"></div>}
+            view! { <div class="card"></div> }
         }
     }
 }
