@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-	"junction-api/card"
 	"junction-api/db"
 	"strconv"
 
@@ -11,10 +10,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func FetchUserInfo(_id primitive.ObjectID) (UserInfo, error) {
+func FetchUserInfo(_id primitive.ObjectID) (db.UserInfo, error) {
 	filter := bson.D{{Key: "_id", Value: _id}}
 
-	var user UserInfo
+	var user db.UserInfo
 
 	err := db.DbRef.Collection("user").FindOne(context.TODO(), filter).Decode(&user)
 
@@ -26,7 +25,7 @@ func FetchUserInfo(_id primitive.ObjectID) (UserInfo, error) {
 }
 
 func UpdateUserInfo(_id primitive.ObjectID, data UserInfoPutRequest) error {
-	var oldUserData UserInfo
+	var oldUserData db.UserInfo
 	
 	oldUserData, err := FetchUserInfo(_id)
 
@@ -34,7 +33,7 @@ func UpdateUserInfo(_id primitive.ObjectID, data UserInfoPutRequest) error {
 		return fiber.NewError(fiber.ErrInternalServerError.Code, "could not find user")
 	}	
 
-	updatedUser := UserInfo {
+	updatedUser := db.UserInfo {
 		Id: _id,
 		Name: oldUserData.Name,
 		CardInProgress: data.CardInProgress,
@@ -50,8 +49,8 @@ func UpdateUserInfo(_id primitive.ObjectID, data UserInfoPutRequest) error {
 	return err
 }
 
-func FetchActiveCard(_id primitive.ObjectID) (card.CardInfo, error) {
-	var card card.CardInfo
+func FetchActiveCard(_id primitive.ObjectID) (db.CardInfo, error) {
+	var card db.CardInfo
 	
 	userInfo, err := FetchUserInfo(_id)
 
@@ -81,7 +80,7 @@ func CreateNewUser() (NewUserId, error) {
 
 	count++
 
-	newUser := UserInfo {
+	newUser := db.UserInfo {
 		Name: "User" + strconv.Itoa(int(count)),
 	}
 
