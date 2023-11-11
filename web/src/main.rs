@@ -44,9 +44,7 @@ fn App() -> impl IntoView {
                 Ok(card_res) => {
                     view! {
                         <div class="app">
-                            <button on:click=move |_e| card.refetch()>previous</button>
                             <Card card=card_res/>
-                            <button on:click=move |_e| card.refetch()>next</button>
                         </div>
                     }
                 }
