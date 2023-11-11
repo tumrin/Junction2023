@@ -20,8 +20,7 @@ pub struct Card {
 #[component]
 pub fn Card() -> impl IntoView {
     let show_info = create_rw_signal(false);
-    let card_id = create_rw_signal("654e81091029b952630a92db");
-    let card = create_local_resource(move || card_id.get(), fetch_card);
+    let card = create_local_resource(move || (), fetch_card);
 
     move || {
         // is some when request completes
@@ -46,12 +45,11 @@ pub fn Card() -> impl IntoView {
     }
 }
 
-async fn fetch_card(card_id: &str) -> Result<Card, error::Error> {
-    let res: Card =
-        reqwasm::http::Request::get(&format!("http://127.0.0.1:3000/api/card/{card_id}"))
-            .send()
-            .await?
-            .json()
-            .await?;
+async fn fetch_card(_: ()) -> Result<Card, error::Error> {
+    let res: Card = reqwasm::http::Request::get("http://127.0.0.1:3000/api/card")
+        .send()
+        .await?
+        .json()
+        .await?;
     Ok(res)
 }

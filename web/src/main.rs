@@ -11,6 +11,5 @@ fn main() {
 
 #[component]
 fn App() -> impl IntoView {
-    view! { <Card/> }
+    view! {<div class="app"> <Card/> </div>}
 }
-

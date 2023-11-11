@@ -1,13 +1,20 @@
 @charset "utf-8";
 @use "components/card.scss";
 
-$background: #E3F2C1;
-$highlight-color: #C9DBB2;
-$text-color: #AAC8A7;
+$background: #e3f2c1;
+$highlight-color: #c9dbb2;
+$text-color: #aac8a7;
 
 html {
   background-color: $background;
   color: $text-color;
 }
+body {
+  margin: 0;
+}
 
-
+.app {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
