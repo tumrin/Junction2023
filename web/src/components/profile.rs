@@ -21,7 +21,8 @@ pub fn Profile() -> impl IntoView {
     let profile = create_local_resource(move|| user_id.get(), fetch_profile);
     let likedCards = create_rw_signal::<Vec<String>>(vec![]);
     let showLikes = create_rw_signal(false);
-
+    let a = fetch_cards(likedCards.get().clone());
+    
     move||{
         if let Some(profile) = profile.get()  {
             match profile {
@@ -73,18 +74,57 @@ async fn fetch_profile(user_id: &str) -> Result<Profile, error::Error> {
     .json()
     .await?;
 
-
     Ok(res)
 }
 
-async fn fetch_card(card_id: &str) -> Result<Card, error::Error> {
-    let res: Card = reqwasm::http::Request::get(&format!("http://127.0.0.1:3000/api/card/{card_id}"))
+async fn fetch_cards(card_ids: Vec<String>) -> Result<Vec<Card>, error::Error> {
+
+    let mut cards: Vec<Card> = vec![];
+    for card_id in card_ids {
+        let res: Card = reqwasm::http::Request::get(&format!("http://127.0.0.1:3000/api/card/{card_id}", card_id=card_id))
         .send()
         .await?
         .json()
         .await?;
-    Ok(res)
+        cards.push(res);
+    }
+
+    Ok(cards)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
