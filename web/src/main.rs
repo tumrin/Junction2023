@@ -7,7 +7,7 @@ use crate::components::card::Card;
 mod components;
 mod pages;
 
-pub const SERVER: &str = "https://94.237.38.188:3000";
+pub const SERVER: &str = "http://94.237.38.188:3000";
 
 #[derive(Debug, Deserialize, Clone)]
 struct User {
@@ -39,7 +39,7 @@ fn App() -> impl IntoView {
 
     spawn_local(async move {
         if user_id.get_untracked().is_none() {
-            let res = reqwasm::http::Request::get(&format!("http://{SERVER}/api/user/create"))
+            let res = reqwasm::http::Request::get(&format!("{SERVER}/api/user/create"))
                 .send()
                 .await
                 .unwrap()
@@ -114,7 +114,7 @@ fn App() -> impl IntoView {
     }
 }
 async fn fetch_card(_: ()) -> Result<Card, leptos::error::Error> {
-    let res: Card = reqwasm::http::Request::get(&format!("http://{SERVER}/api/card"))
+    let res: Card = reqwasm::http::Request::get(&format!("{SERVER}/api/card"))
         .send()
         .await?
         .json()

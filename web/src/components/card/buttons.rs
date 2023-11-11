@@ -58,7 +58,7 @@ fn start_request(user: &User, card: String) {
             inProgress: card,
             likedCards: Some(user.likedCards.unwrap_or(vec![])),
         };
-        reqwasm::http::Request::put(&format!("http://{SERVER}/api/user/{id}",))
+        reqwasm::http::Request::put(&format!("{SERVER}/api/user/{id}",))
             .header("Content-Type", "application/json")
             .body(serde_json::to_value(body).unwrap().to_string())
             .send()
@@ -76,7 +76,7 @@ fn like_request(user: &User, card: String) {
             inProgress: user.inProgress,
             likedCards: Some(likedCards),
         };
-        reqwasm::http::Request::put(&format!("http://{SERVER}/api/user/{id}",))
+        reqwasm::http::Request::put(&format!("{SERVER}/api/user/{id}",))
             .header("Content-Type", "application/json")
             .body(serde_json::to_value(body).unwrap().to_string())
             .send()
