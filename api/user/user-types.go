@@ -15,5 +15,5 @@ type UserInfoPutRequest struct {
 }
 
 type NewUserId struct {
-	Id primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty" validate:"required"`
+	Id primitive.ObjectID `json:"id,omitempty" bson:"id,omitempty" validate:"required"`
 }
