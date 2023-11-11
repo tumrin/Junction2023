@@ -2,7 +2,7 @@ use leptos::{leptos_dom::logging::console_log, *};
 use leptos_use::storage::use_local_storage;
 use serde::Deserialize;
 
-use crate::components::{card::Card, profile::Profile};
+use crate::components::{card::Card};
 
 mod components;
 mod pages;
@@ -86,6 +86,7 @@ async fn fetch_card(_: ()) -> Result<Card, error::Error> {
         .await?;
     Ok(res)
 }
+
 
 
 
