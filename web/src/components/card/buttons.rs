@@ -7,8 +7,12 @@ use leptos_icons::Icon;
 pub fn Buttons() -> impl IntoView {
     view! {
         <div class="buttons">
-            <Icon icon=Icon::from(BiLikeSolid) width="2em" height="2em"/>
-            <Icon icon=Icon::from(BsRocketTakeoffFill) width="2em" height="2em"/>
+            <div class="button">
+                <Icon icon=Icon::from(BiLikeSolid) width="2em" height="2em"/>
+            </div>
+            <div class="button">
+                <Icon icon=Icon::from(BsRocketTakeoffFill) width="2em" height="2em"/>
+            </div>
         </div>
     }
 }

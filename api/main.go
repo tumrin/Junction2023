@@ -5,6 +5,7 @@ import (
 	"junction-api/db"
 	"junction-api/user"
 	"junction-api/utils"
+	"junction-api/video"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -22,13 +23,18 @@ func main() {
 	// database
 	db.InitDb()
 
+	helmetOpts := helmet.Config {
+		CrossOriginResourcePolicy: "*",
+	}
+
 	// middlewares
-	app.Use(helmet.New())
+	app.Use(helmet.New(helmetOpts))
 	app.Use(cors.New())	
 
 	// routes
 	card.CardRoutes(app)
 	user.UserRoute(app)
+	video.VideoRoutes(app)
 	
 	// simple 404-handler
 	app.Use(func (c *fiber.Ctx) error {

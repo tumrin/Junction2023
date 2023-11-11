@@ -6,5 +6,5 @@ func VideoRoutes(app fiber.Router) {
 	router := app.Group("/api/video")
 
 	// GET
-	router.Get("/", GetVideosHandler)
+	router.Get("/:videoName", GetVideosHandler)
 }
