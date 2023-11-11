@@ -76,7 +76,7 @@ func initCardData() error {
 			Content: "Walking in a forest is beneficial for chronic pain sufferers as the tranquil surroundings reduce stress, promoting relaxation and easing pain perception. The gentle exercise of walking also improves circulation and releases endorphins, contributing to an overall sense of well-being and potentially mitigating the impact of chronic pain.",
 			References: []string{
 				"Majeed MH, Ali AA, Sudak DM. Mindfulness-based interventions for chronic pain: Evidence and applications. Asian J Psychiatr. 2018 Feb;32:79-83. doi: 10.1016/j.ajp.2017.11.025.",
-				"Ambrose KR, Golightly YM. Physical exercise as non-pharmacological treatment of chronic pain: Why and when. Best Pract Res Clin Rheumatol. 2015 Feb;29(1):120-30. doi: 10.1016/j.berh.2015.04.022."
+				"Ambrose KR, Golightly YM. Physical exercise as non-pharmacological treatment of chronic pain: Why and when. Best Pract Res Clin Rheumatol. 2015 Feb;29(1):120-30. doi: 10.1016/j.berh.2015.04.022.",
 			},
 			VideoLink: "forest.mp4",
 		},
