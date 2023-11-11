@@ -7,6 +7,7 @@ use leptos_icons::BsIcon::BsRocketTakeoffFill;
 use leptos_icons::Icon;
 use serde::{Deserialize, Serialize};
 
+use crate::SERVER;
 use crate::{User, UserContext};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -57,7 +58,7 @@ fn start_request(user: &User, card: String) {
             inProgress: card,
             likedCards: Some(user.likedCards.unwrap_or(vec![])),
         };
-        reqwasm::http::Request::put(&format!("http://localhost:3000/api/user/{id}",))
+        reqwasm::http::Request::put(&format!("http://{SERVER}/api/user/{id}",))
             .header("Content-Type", "application/json")
             .body(serde_json::to_value(body).unwrap().to_string())
             .send()
@@ -75,7 +76,7 @@ fn like_request(user: &User, card: String) {
             inProgress: user.inProgress,
             likedCards: Some(likedCards),
         };
-        reqwasm::http::Request::put(&format!("http://localhost:3000/api/user/{id}",))
+        reqwasm::http::Request::put(&format!("http://{SERVER}/api/user/{id}",))
             .header("Content-Type", "application/json")
             .body(serde_json::to_value(body).unwrap().to_string())
             .send()
