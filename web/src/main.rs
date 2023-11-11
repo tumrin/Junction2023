@@ -1,16 +1,26 @@
 use leptos::{leptos_dom::logging::console_log, *};
 use leptos_use::storage::use_local_storage;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::components::card::Card;
 
 mod components;
 mod pages;
 
-#[derive(Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 struct User {
     id: String,
+    username: String,
+    inProgress: String,
+    likedCards: Option<Vec<String>>,
 }
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+struct UserIdResponse {
+    id: String,
+}
+#[derive(Copy, Clone)]
+struct UserContext(ReadSignal<Option<User>>);
 
 fn main() {
     mount_to_body(App)
@@ -20,19 +30,37 @@ fn main() {
 fn App() -> impl IntoView {
     let card = create_local_resource(move || (), fetch_card);
     let (user_id, set_user_id, _) = use_local_storage("user", None);
-    let user_request = create_rw_signal(None);
+    let (user, set_user) = create_signal(None);
+    provide_context(UserContext(user));
 
-    create_effect(move |_| {
-        if user_id.get().is_none() {
-            user_request.set(Some(create_local_resource(move || (), generate_user)));
+    spawn_local(async move {
+        if user_id.get_untracked().is_none() {
+            let res = reqwasm::http::Request::get("http://127.0.0.1:3000/api/user/create")
+                .send()
+                .await
+                .unwrap()
+                .json::<UserIdResponse>()
+                .await
+                .unwrap()
+                .id;
+            set_user_id(Some(res));
         }
     });
 
     create_effect(move |_| {
-        if let Some(user_request) = user_request.get() {
-            if let Some(Ok(user_id)) = user_request.get() {
-                set_user_id(Some(user_id))
-            }
+        if let Some(id) = user_id.get() {
+            spawn_local(async move {
+                let res =
+                    reqwasm::http::Request::get(&format!("http://127.0.0.1:3000/api/user/{id}"))
+                        .send()
+                        .await
+                        .unwrap()
+                        .json::<User>()
+                        .await
+                        .map_err(|e| console_log(&format!("{e:?}")))
+                        .unwrap();
+                set_user(Some(res));
+            })
         }
     });
 
@@ -56,6 +84,7 @@ fn App() -> impl IntoView {
                                 }
                             }
                         >
+
                             <Card card=card_res/>
                         </div>
                     }
@@ -67,17 +96,27 @@ fn App() -> impl IntoView {
         }
     }
 }
-async fn generate_user(_: ()) -> Result<String, error::Error> {
-    let res: String = reqwasm::http::Request::get("http://127.0.0.1:3000/api/user/create")
+async fn generate_user(_: ()) -> Result<User, leptos::error::Error> {
+    let res: User = reqwasm::http::Request::get("http://127.0.0.1:3000/api/user/create")
         .send()
         .await?
         .json::<User>()
-        .await?
-        .id;
+        .await?;
     Ok(res)
 }
 
-async fn fetch_card(_: ()) -> Result<Card, error::Error> {
+async fn fetch_user(id: String) -> Result<User, leptos::error::Error> {
+    console_log("fetch");
+
+    let res: User = reqwasm::http::Request::get(&format!("http://127.0.0.1:3000/api/user/{id}"))
+        .send()
+        .await?
+        .json::<User>()
+        .await?;
+    Ok(res)
+}
+async fn fetch_card(_: ()) -> Result<Card, leptos::error::Error> {
+    console_log("fetch2");
     let res: Card = reqwasm::http::Request::get("http://127.0.0.1:3000/api/card")
         .send()
         .await?
