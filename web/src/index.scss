@@ -11,3 +11,12 @@ html {
   background-color: $background;
   color: $text-color;
 }
+body {
+  margin: 0;
+}
+
+.app {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
