@@ -23,9 +23,9 @@ pub fn Card(card: Card) -> impl IntoView {
     let show_info = create_rw_signal(false);
 
     view! {
-        <div class="card" on:click=move |_e| show_info.set(!show_info.get())>
+        <div class="card" on:touchmove=move |_e| show_info.set(!show_info.get())>
             <Profile/>
-            <CardTitle title=card.title.clone() video=card.vidLink.clone()/>
+            <CardTitle title=card.title.clone() video=card.vidLink.clone() id=card.id/>
             <AnimatedShow
                 when=show_info
                 hide_delay=Duration::from_millis(500)
