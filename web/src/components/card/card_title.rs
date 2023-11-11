@@ -11,6 +11,7 @@ pub fn CardTitle(title: String, video: String, id: String) -> impl IntoView {
                 <video
                     loop=true
                     autoplay=true
+                    mute=true
                     src=format!("http://127.0.0.1:3000/api/video/{video}")
                 ></video>
             </div>

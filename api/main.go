@@ -35,6 +35,8 @@ func main() {
 	card.CardRoutes(app)
 	user.UserRoute(app)
 	video.VideoRoutes(app)
+
+	app.Static("/", "./dist")
 	
 	// simple 404-handler
 	app.Use(func (c *fiber.Ctx) error {

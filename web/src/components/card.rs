@@ -5,6 +5,7 @@ mod card_title;
 use crate::components::card::card_info::CardInfo;
 use crate::components::card::card_title::CardTitle;
 use crate::components::profile::Profile;
+use leptos::leptos_dom::logging::console_log;
 use leptos::*;
 use serde::Deserialize;
 use std::time::Duration;
@@ -19,11 +20,9 @@ pub struct Card {
 }
 
 #[component]
-pub fn Card(card: Card) -> impl IntoView {
-    let show_info = create_rw_signal(false);
-
+pub fn Card(card: Card, show_info: bool) -> impl IntoView {
     view! {
-        <div class="card" on:touchmove=move |_e| show_info.set(!show_info.get())>
+        <div class="card">
             <Profile/>
             <CardTitle title=card.title.clone() video=card.vidLink.clone() id=card.id/>
             <AnimatedShow
