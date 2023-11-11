@@ -89,7 +89,7 @@ fn App() -> impl IntoView {
                             on:touchmove=move |e| {
                                 let currenty = e.touches().get(0).unwrap().screen_y();
                                 let currentx = e.touches().get(0).unwrap().screen_x();
-                                if last_touch_y.get() != 0 && currenty < last_touch_y.get() - 50 {
+                                if last_touch_y.get() != 0 && currenty < last_touch_y.get() - 50 && !show_info.get() {
                                     show_info.set(true);
                                 } else if last_touch_y.get() != 0 && currenty > last_touch_y.get() + 50
                                     && show_info.get()
