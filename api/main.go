@@ -5,6 +5,7 @@ import (
 	"junction-api/db"
 	"junction-api/user"
 	"junction-api/utils"
+	"junction-api/video"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -29,6 +30,7 @@ func main() {
 	// routes
 	card.CardRoutes(app)
 	user.UserRoute(app)
+	video.VideoRoutes(app)
 	
 	// simple 404-handler
 	app.Use(func (c *fiber.Ctx) error {
