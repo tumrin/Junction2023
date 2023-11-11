@@ -36,6 +36,8 @@ fn App() -> impl IntoView {
         }
     });
 
+    let mut last_touch = 0;
+
     move || {
         // is some when request completes
         if let Some(card_res) = card.get() {
@@ -43,10 +45,18 @@ fn App() -> impl IntoView {
             match card_res {
                 Ok(card_res) => {
                     view! {
-                        <div class="app">
-                            <button on:click=move |_e| card.refetch()>previous</button>
+                        <div
+                            class="app"
+                            on:touchmove=move |e| {
+                                let current = e.touches().get(0).unwrap().screen_x();
+                                if current < last_touch {
+                                    card.refetch()
+                                } else {
+                                    last_touch = current
+                                }
+                            }
+                        >
                             <Card card=card_res/>
-                            <button on:click=move |_e| card.refetch()>next</button>
                         </div>
                     }
                 }
