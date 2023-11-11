@@ -1,9 +1,16 @@
-use leptos::*;
+use leptos::{leptos_dom::logging::console_log, *};
+use leptos_use::storage::use_local_storage;
+use serde::Deserialize;
 
 use crate::components::{card::Card, profile::Profile};
 
 mod components;
 mod pages;
+
+#[derive(Deserialize)]
+struct User {
+    id: String,
+}
 
 fn main() {
     mount_to_body(App)
@@ -12,6 +19,25 @@ fn main() {
 #[component]
 fn App() -> impl IntoView {
     let card = create_local_resource(move || (), fetch_card);
+    let (user_id, set_user_id, _) = use_local_storage("user", None);
+    let user_request = create_rw_signal(None);
+
+    create_effect(move |_| {
+        if user_id.get().is_none() {
+            user_request.set(Some(create_local_resource(move || (), generate_user)));
+        }
+    });
+
+    create_effect(move |_| {
+        if let Some(user_request) = user_request.get() {
+            if let Some(Ok(user_id)) = user_request.get() {
+                set_user_id(Some(user_id))
+            }
+        }
+    });
+
+    let mut last_touch = 0;
+
     move || {
         // is some when request completes
         if let Some(card_res) = card.get() {
@@ -19,11 +45,19 @@ fn App() -> impl IntoView {
             match card_res {
                 Ok(card_res) => {
                     view! {
-                        <div class="app">
-                            <Profile/>
-                            <button on:click=move |_e| card.refetch()>previous</button>
+                        <div
+                            class="app"
+                            on:touchmove=move |e| {
+                                let current = e.touches().get(0).unwrap().screen_x();
+                                if current < last_touch {
+                                    card.refetch()
+                                } else {
+                                    last_touch = current
+                                }
+                            }
+                        >
+
                             <Card card=card_res/>
-                            <button on:click=move |_e| card.refetch()>next</button>
                         </div>
                     }
                 }
@@ -34,6 +68,16 @@ fn App() -> impl IntoView {
         }
     }
 }
+async fn generate_user(_: ()) -> Result<String, error::Error> {
+    let res: String = reqwasm::http::Request::get("http://127.0.0.1:3000/api/user/create")
+        .send()
+        .await?
+        .json::<User>()
+        .await?
+        .id;
+    Ok(res)
+}
+
 async fn fetch_card(_: ()) -> Result<Card, error::Error> {
     let res: Card = reqwasm::http::Request::get("http://127.0.0.1:3000/api/card")
         .send()
@@ -42,6 +86,7 @@ async fn fetch_card(_: ()) -> Result<Card, error::Error> {
         .await?;
     Ok(res)
 }
+
 
 
 

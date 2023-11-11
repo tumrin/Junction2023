@@ -24,11 +24,11 @@ func GetSingleCardHandler(c *fiber.Ctx) error {
 	err := validate.Var(id, "required,mongodb")
 
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).SendString("id validaton failed")
+		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
 	}
 
 	_id, err := primitive.ObjectIDFromHex(id)
-	
+
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).SendString("id conversion failed")
 	}

@@ -1,6 +1,7 @@
-$card-background: #F6FFDE;
+$card-background: #f6ffde;
 
-.card-title{
+.card-title {
+  position: relative;
   border: 1px solid black;
   height: 600px;
   box-shadow: black 5px 5px 5px;
@@ -8,9 +9,29 @@ $card-background: #F6FFDE;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto; 
+  margin: auto;
   max-width: 400px;
-  padding: 1rem;
   justify-content: space-between;
+  text-align: center;
   background-color: $card-background;
+  z-index: 0;
+  h1 {
+    z-index: 2;
+    background-color: rgba(50, 50, 50, 0.5);
+    padding: 1rem;
+  }
+
+  .video-wrapper {
+    position: absolute;
+    overflow: hidden;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    video {
+      z-index: 1;
+      width: inherit;
+      height: inherit;
+      object-fit: fill;
+    }
+  }
 }

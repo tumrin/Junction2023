@@ -1,6 +1,11 @@
 .buttons {
-  display: flex; 
+  display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
+.button {
+  cursor: pointer;
+  z-index: 2;
+  padding: 1rem;
+}

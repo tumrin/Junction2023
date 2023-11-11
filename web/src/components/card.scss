@@ -5,13 +5,29 @@
 .card {
   width: 100%;
   margin: 0 0.5rem;
+  &.next {
+    animation: 1s slide_away forwards;
+  }
+}
+
+@keyframes slide_away {
+  from {
+    transform: translateX(0px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(500px);
+    opacity: 1;
+  }
 }
 
 @keyframes slide {
   from {
+    transform: translateY(-200px);
     opacity: 0;
   }
   to {
+    transform: translateY(0px);
     opacity: 1;
   }
 }
@@ -20,10 +36,12 @@
 }
 @keyframes hide {
   from {
+    transform: translateY(0px);
     opacity: 1;
   }
   to {
     opacity: 0;
+    transform: translateY(-200px);
   }
 }
 .hide {
