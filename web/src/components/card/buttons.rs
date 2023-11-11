@@ -33,25 +33,18 @@ pub fn Buttons(card: String) -> impl IntoView {
             let user1 = user.clone();
             view! {
                 <div class="buttons">
-                    <div
-                        class="button"
-                        on:click=move |e| {
-                                like_request(&user, card.get())
-                        }
-                    >
+                    <div class="button" on:click=move |e| { like_request(&user, card.get()) }>
+
                         <Icon icon=Icon::from(BiLikeSolid) width="2em" height="2em"/>
                     </div>
-                    <div class="button"
-                                on:click=move |e| {
-                                start_request(&user1, card.get())
-                        }
-                >
+                    <div class="button" on:click=move |e| { start_request(&user1, card.get()) }>
+
                         <Icon icon=Icon::from(BsRocketTakeoffFill) width="2em" height="2em"/>
                     </div>
                 </div>
             }
         } else {
-            view! {<div></div>}
+            view! { <div></div> }
         }
     }
 }
