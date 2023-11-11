@@ -23,8 +23,12 @@ func main() {
 	// database
 	db.InitDb()
 
+	helmetOpts := helmet.Config {
+		CrossOriginResourcePolicy: "*",
+	}
+
 	// middlewares
-	app.Use(helmet.New())
+	app.Use(helmet.New(helmetOpts))
 	app.Use(cors.New())	
 
 	// routes
