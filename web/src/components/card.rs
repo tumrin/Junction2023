@@ -22,16 +22,16 @@ pub fn Card(card: Card) -> impl IntoView {
     let show_info = create_rw_signal(false);
 
     view! {
-            <div class="card" on:click=move |_e| show_info.set(!show_info.get())>
-                <CardTitle title=card.title.clone() video=card.vidLink.clone()/>
-                <AnimatedShow
-                    when=show_info
-                    hide_delay=Duration::from_millis(500)
-                    show_class="slide"
-                    hide_class="hide"
-                >
-                    <CardInfo content=card.content.clone()/>
-                </AnimatedShow>
-            </div>
+        <div class="card" on:click=move |_e| show_info.set(!show_info.get())>
+            <CardTitle title=card.title.clone() video=card.vidLink.clone()/>
+            <AnimatedShow
+                when=show_info
+                hide_delay=Duration::from_millis(500)
+                show_class="slide"
+                hide_class="hide"
+            >
+                <CardInfo content=card.content.clone()/>
+            </AnimatedShow>
+        </div>
     }
 }
