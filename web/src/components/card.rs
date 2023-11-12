@@ -4,7 +4,6 @@ mod card_title;
 
 use crate::components::card::card_info::CardInfo;
 use crate::components::card::card_title::CardTitle;
-use leptos::leptos_dom::logging::console_log;
 use leptos::*;
 use serde::Deserialize;
 use std::time::Duration;

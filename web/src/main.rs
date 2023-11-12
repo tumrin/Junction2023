@@ -1,13 +1,16 @@
 use leptos::{leptos_dom::logging::console_log, *};
+use leptos_icons::Icon;
 use leptos_use::storage::use_local_storage;
 use serde::{Deserialize, Serialize};
 
 use crate::components::card::Card;
+use leptos_icons::BiIcon::BiLeftArrowAltRegular;
+use leptos_icons::BiIcon::BiRightArrowAltRegular;
 
 mod components;
 mod pages;
 
-pub const SERVER: &str = "http://94.237.38.188:80";
+pub const SERVER: &str = "https://painless.final-assignment.zip";
 
 #[derive(Debug, Deserialize, Clone)]
 struct User {
@@ -102,7 +105,12 @@ fn App() -> impl IntoView {
                             }
                         >
 
+                            <div class="previous" on:click=move |_e| card.refetch()>
+                            <Icon icon=Icon::from(BiLeftArrowAltRegular) width="4em" height="4em"/></div>
                             <Card card=card_res show_info=show_info.get()/>
+                            <div class="next" on:click=move |_e| card.refetch()>
+                            <Icon icon=Icon::from(BiRightArrowAltRegular) width="4em" height="4em"/>
+                        </div>
                         </div>
                     }
                 }
