@@ -11,6 +11,7 @@ mod components;
 mod pages;
 
 pub const SERVER: &str = "https://painless.final-assignment.zip";
+// pub const SERVER: &str = "http://localhost:3000";
 
 #[derive(Debug, Deserialize, Clone)]
 struct User {
@@ -26,6 +27,8 @@ struct UserIdResponse {
 }
 #[derive(Copy, Clone)]
 struct UserContext(ReadSignal<Option<User>>);
+#[derive(Copy, Clone)]
+struct InfoContext(RwSignal<bool>);
 
 fn main() {
     mount_to_body(App)
@@ -39,6 +42,7 @@ fn App() -> impl IntoView {
     let show_info = create_rw_signal(false);
 
     provide_context(UserContext(user));
+    provide_context(InfoContext(show_info));
 
     spawn_local(async move {
         if user_id.get_untracked().is_none() {
@@ -114,7 +118,7 @@ fn App() -> impl IntoView {
                                     height="4em"
                                 />
                             </div>
-                            <Card card=card_res show_info=show_info/>
+                            <Card card=card_res/>
                             <div class="next" on:click=move |_e| card.refetch()>
                                 <Icon
                                     icon=Icon::from(BiRightArrowAltRegular)
