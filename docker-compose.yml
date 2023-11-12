@@ -9,7 +9,7 @@ services:
       context: ./api # Use an image built from the specified dockerfile in the current directory.
       dockerfile: Dockerfile
     ports:
-      - "3000:3000" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+      - "80:3000" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: unless-stopped
     depends_on:
       - mongodb # This service depends on mongo. Start that first.

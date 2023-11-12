@@ -1,11 +1,17 @@
 use leptos::{leptos_dom::logging::console_log, *};
+use leptos_icons::Icon;
 use leptos_use::storage::use_local_storage;
 use serde::{Deserialize, Serialize};
 
-use crate::components::{card::Card};
+use crate::components::card::Card;
+use leptos_icons::BiIcon::BiLeftArrowAltRegular;
+use leptos_icons::BiIcon::BiRightArrowAltRegular;
 
 mod components;
 mod pages;
+
+pub const SERVER: &str = "https://painless.final-assignment.zip";
+// pub const SERVER: &str = "http://localhost:3000";
 
 #[derive(Debug, Deserialize, Clone)]
 struct User {
@@ -21,6 +27,8 @@ struct UserIdResponse {
 }
 #[derive(Copy, Clone)]
 struct UserContext(ReadSignal<Option<User>>);
+#[derive(Copy, Clone)]
+struct InfoContext(RwSignal<bool>);
 
 fn main() {
     mount_to_body(App)
@@ -34,10 +42,11 @@ fn App() -> impl IntoView {
     let show_info = create_rw_signal(false);
 
     provide_context(UserContext(user));
+    provide_context(InfoContext(show_info));
 
     spawn_local(async move {
         if user_id.get_untracked().is_none() {
-            let res = reqwasm::http::Request::get("http://localhost:3000/api/user/create")
+            let res = reqwasm::http::Request::get(&format!("{SERVER}/api/user/create"))
                 .send()
                 .await
                 .unwrap()
@@ -52,15 +61,14 @@ fn App() -> impl IntoView {
     create_effect(move |_| {
         if let Some(id) = user_id.get() {
             spawn_local(async move {
-                let res =
-                    reqwasm::http::Request::get(&format!("http://localhost:3000/api/user/{id}"))
-                        .send()
-                        .await
-                        .unwrap()
-                        .json::<User>()
-                        .await
-                        .map_err(|e| console_log(&format!("{e:?}")))
-                        .unwrap();
+                let res = reqwasm::http::Request::get(&format!("{SERVER}/api/user/{id}"))
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<User>()
+                    .await
+                    .map_err(|e| console_log(&format!("{e:?}")))
+                    .unwrap();
                 set_user(Some(res));
             })
         }
@@ -88,10 +96,12 @@ fn App() -> impl IntoView {
                             on:touchmove=move |e| {
                                 let currenty = e.touches().get(0).unwrap().screen_y();
                                 let currentx = e.touches().get(0).unwrap().screen_x();
-                                if last_touch_y.get() != 0 && currenty < last_touch_y.get() - 50 {
+                                if last_touch_y.get() != 0 && currenty < last_touch_y.get() - 50
+                                    && !show_info.get()
+                                {
                                     show_info.set(true);
-                                } else if last_touch_y.get() != 0 && currenty > last_touch_y.get() + 50
-                                    && show_info.get()
+                                } else if last_touch_y.get() != 0
+                                    && currenty > last_touch_y.get() + 50 && show_info.get()
                                 {
                                     show_info.set(false)
                                 }
@@ -101,7 +111,21 @@ fn App() -> impl IntoView {
                             }
                         >
 
-                            <Card card=card_res show_info=show_info.get()/>
+                            <div class="previous" on:click=move |_e| card.refetch()>
+                                <Icon
+                                    icon=Icon::from(BiLeftArrowAltRegular)
+                                    width="4em"
+                                    height="4em"
+                                />
+                            </div>
+                            <Card card=card_res/>
+                            <div class="next" on:click=move |_e| card.refetch()>
+                                <Icon
+                                    icon=Icon::from(BiRightArrowAltRegular)
+                                    width="4em"
+                                    height="4em"
+                                />
+                            </div>
                         </div>
                     }
                 }
@@ -113,13 +137,15 @@ fn App() -> impl IntoView {
     }
 }
 async fn fetch_card(_: ()) -> Result<Card, leptos::error::Error> {
-    let res: Card = reqwasm::http::Request::get("http://localhost:3000/api/card")
+    let res: Card = reqwasm::http::Request::get(&format!("{SERVER}/api/card"))
         .send()
         .await?
         .json()
         .await?;
     Ok(res)
 }
+
+
 
 
 
