@@ -32,6 +32,7 @@ fn App() -> impl IntoView {
     let (user_id, set_user_id, _) = use_local_storage("user", None);
     let (user, set_user) = create_signal(None);
     let show_info = create_rw_signal(false);
+    let show_profile = create_rw_signal(false);
 
     provide_context(UserContext(user));
 
@@ -90,18 +91,29 @@ fn App() -> impl IntoView {
                                 let currentx = e.touches().get(0).unwrap().screen_x();
                                 if last_touch_y.get() != 0 && currenty < last_touch_y.get() - 50 {
                                     show_info.set(true);
-                                } else if last_touch_y.get() != 0 && currenty > last_touch_y.get() + 50
-                                    && show_info.get()
+                                } else if last_touch_y.get() != 0
+                                    && currenty > last_touch_y.get() + 50 && show_info.get()
                                 {
                                     show_info.set(false)
                                 }
                                 if currentx < last_touch_x.get() - 50 && last_touch_x.get() != 0 {
                                     card.refetch()
                                 }
+                                if last_touch_y.get() != 0 && currenty > last_touch_y.get() + 50 {
+                                    show_profile.set(true);
+                                } else if last_touch_y.get() != 0
+                                    && currenty < last_touch_y.get() - 50 && !show_profile.get()
+                                {
+                                    show_profile.set(false)
+                                }
                             }
                         >
 
-                            <Card card=card_res show_info=show_info.get()/>
+                            <Card
+                                card=card_res
+                                show_info=show_info.get()
+                                show_profile=show_profile.get()
+                            />
                         </div>
                     }
                 }
@@ -120,4 +132,17 @@ async fn fetch_card(_: ()) -> Result<Card, leptos::error::Error> {
         .await?;
     Ok(res)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -10,20 +10,28 @@ use leptos::*;
 use serde::Deserialize;
 use std::time::Duration;
 
-#[derive(Clone, PartialEq, Deserialize, Debug)]
+#[derive(Clone, PartialEq, Eq, Hash, Deserialize, Debug)]
 pub struct Card {
-    id: String,
-    vidLink: String,
-    reference: Vec<String>,
-    title: String,
-    content: String,
+    pub id: String,
+    pub vidLink: String,
+    pub reference: Vec<String>,
+    pub title: String,
+    pub content: String,
 }
 
 #[component]
-pub fn Card(card: Card, show_info: bool) -> impl IntoView {
+pub fn Card(card: Card, show_info: bool, show_profile: bool) -> impl IntoView {
     view! {
         <div class="card">
-            <Profile/>
+
+            <AnimatedShow
+                when=show_profile
+                hide_delay=Duration::from_millis(500)
+                show_class="slide"
+                hide_class="hide"
+            >
+                <Profile/>
+            </AnimatedShow>
             <CardTitle title=card.title.clone() video=card.vidLink.clone() id=card.id/>
             <AnimatedShow
                 when=show_info
