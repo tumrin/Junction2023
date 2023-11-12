@@ -18,11 +18,9 @@ pub struct Card {
 }
 
 #[component]
-pub fn Card(card: Card) -> impl IntoView {
-    let show_info = create_rw_signal(false);
-
+pub fn Card(card: Card, show_info: bool) -> impl IntoView {
     view! {
-        <div class="card" on:touchmove=move |_e| show_info.set(!show_info.get())>
+        <div class="card">
             <CardTitle title=card.title.clone() video=card.vidLink.clone() id=card.id/>
             <AnimatedShow
                 when=show_info

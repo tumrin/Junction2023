@@ -7,6 +7,7 @@ use leptos_icons::BsIcon::BsRocketTakeoffFill;
 use leptos_icons::Icon;
 use serde::{Deserialize, Serialize};
 
+use crate::SERVER;
 use crate::{User, UserContext};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -33,25 +34,18 @@ pub fn Buttons(card: String) -> impl IntoView {
             let user1 = user.clone();
             view! {
                 <div class="buttons">
-                    <div
-                        class="button"
-                        on:click=move |e| {
-                                like_request(&user, card.get())
-                        }
-                    >
+                    <div class="button" on:click=move |e| { like_request(&user, card.get()) }>
+
                         <Icon icon=Icon::from(BiLikeSolid) width="2em" height="2em"/>
                     </div>
-                    <div class="button"
-                                on:click=move |e| {
-                                start_request(&user1, card.get())
-                        }
-                >
+                    <div class="button" on:click=move |e| { start_request(&user1, card.get()) }>
+
                         <Icon icon=Icon::from(BsRocketTakeoffFill) width="2em" height="2em"/>
                     </div>
                 </div>
             }
         } else {
-            view! {<div></div>}
+            view! { <div></div> }
         }
     }
 }
@@ -64,7 +58,7 @@ fn start_request(user: &User, card: String) {
             inProgress: card,
             likedCards: Some(user.likedCards.unwrap_or(vec![])),
         };
-        reqwasm::http::Request::put(&format!("http://localhost:3000/api/user/{id}",))
+        reqwasm::http::Request::put(&format!("{SERVER}/api/user/{id}",))
             .header("Content-Type", "application/json")
             .body(serde_json::to_value(body).unwrap().to_string())
             .send()
@@ -82,7 +76,7 @@ fn like_request(user: &User, card: String) {
             inProgress: user.inProgress,
             likedCards: Some(likedCards),
         };
-        reqwasm::http::Request::put(&format!("http://localhost:3000/api/user/{id}",))
+        reqwasm::http::Request::put(&format!("{SERVER}/api/user/{id}",))
             .header("Content-Type", "application/json")
             .body(serde_json::to_value(body).unwrap().to_string())
             .send()

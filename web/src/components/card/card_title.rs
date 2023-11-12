@@ -1,6 +1,7 @@
 use leptos::*;
 
 use crate::components::card::buttons::Buttons;
+use crate::SERVER;
 
 #[component]
 pub fn CardTitle(title: String, video: String, id: String) -> impl IntoView {
@@ -11,7 +12,8 @@ pub fn CardTitle(title: String, video: String, id: String) -> impl IntoView {
                 <video
                     loop=true
                     autoplay=true
-                    src=format!("http://127.0.0.1:3000/api/video/{video}")
+                    mute=true
+                    src=format!("{SERVER}/api/video/{video}")
                 ></video>
             </div>
             <Buttons card=id/>
