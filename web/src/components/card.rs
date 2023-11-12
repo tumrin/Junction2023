@@ -22,9 +22,7 @@ pub struct Card {
 pub fn Card(card: Card) -> impl IntoView {
     let show_info = use_context::<InfoContext>().unwrap().0;
     view! {
-        <div
-            class="card"
-        >
+        <div class="card">
 
             <CardTitle title=card.title.clone() video=card.vidLink.clone() id=card.id/>
             <AnimatedShow
