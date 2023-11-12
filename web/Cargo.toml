@@ -5,10 +5,21 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[profile.release]
+inherits = "release"
+opt-level = 'z'
+lto = true
+codegen-units = 1
+
 [dependencies]
 leptos = { version = "0.5.2", features = ["csr", "nightly"] }
 leptos-use = { version = "0.8.2", features = ["storage"] }
-leptos_icons = { version = "0.1.0", features = ["BsRocketTakeoffFill", "BiLikeSolid", "BiRightArrowAltRegular", "BiLeftArrowAltRegular"] }
+leptos_icons = { version = "0.1.0", features = [
+  "BsRocketTakeoffFill",
+  "BiLikeSolid",
+  "BiRightArrowAltRegular",
+  "BiLeftArrowAltRegular",
+] }
 reqwasm = "0.5.0"
 serde = { version = "1.0.192", features = ["derive"] }
 serde-wasm-bindgen = "0.6.1"

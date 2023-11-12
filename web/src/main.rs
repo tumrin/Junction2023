@@ -8,10 +8,9 @@ use leptos_icons::BiIcon::BiLeftArrowAltRegular;
 use leptos_icons::BiIcon::BiRightArrowAltRegular;
 
 mod components;
-mod pages;
 
 pub const SERVER: &str = "https://painless.final-assignment.zip";
-// pub const SERVER: &str = "http://localhost:3000";
+//pub const SERVER: &str = "http://localhost:3000";
 
 #[derive(Debug, Deserialize, Clone)]
 struct User {
@@ -29,6 +28,8 @@ struct UserIdResponse {
 struct UserContext(ReadSignal<Option<User>>);
 #[derive(Copy, Clone)]
 struct InfoContext(RwSignal<bool>);
+#[derive(Copy, Clone)]
+struct ToastContext(RwSignal<(String, i32)>);
 
 fn main() {
     mount_to_body(App)
