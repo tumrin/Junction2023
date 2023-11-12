@@ -92,10 +92,12 @@ fn App() -> impl IntoView {
                             on:touchmove=move |e| {
                                 let currenty = e.touches().get(0).unwrap().screen_y();
                                 let currentx = e.touches().get(0).unwrap().screen_x();
-                                if last_touch_y.get() != 0 && currenty < last_touch_y.get() - 50 && !show_info.get() {
+                                if last_touch_y.get() != 0 && currenty < last_touch_y.get() - 50
+                                    && !show_info.get()
+                                {
                                     show_info.set(true);
-                                } else if last_touch_y.get() != 0 && currenty > last_touch_y.get() + 50
-                                    && show_info.get()
+                                } else if last_touch_y.get() != 0
+                                    && currenty > last_touch_y.get() + 50 && show_info.get()
                                 {
                                     show_info.set(false)
                                 }
@@ -106,11 +108,20 @@ fn App() -> impl IntoView {
                         >
 
                             <div class="previous" on:click=move |_e| card.refetch()>
-                            <Icon icon=Icon::from(BiLeftArrowAltRegular) width="4em" height="4em"/></div>
-                            <Card card=card_res show_info=show_info.get()/>
+                                <Icon
+                                    icon=Icon::from(BiLeftArrowAltRegular)
+                                    width="4em"
+                                    height="4em"
+                                />
+                            </div>
+                            <Card card=card_res show_info=show_info/>
                             <div class="next" on:click=move |_e| card.refetch()>
-                            <Icon icon=Icon::from(BiRightArrowAltRegular) width="4em" height="4em"/>
-                        </div>
+                                <Icon
+                                    icon=Icon::from(BiRightArrowAltRegular)
+                                    width="4em"
+                                    height="4em"
+                                />
+                            </div>
                         </div>
                     }
                 }

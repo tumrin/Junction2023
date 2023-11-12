@@ -18,9 +18,15 @@ pub struct Card {
 }
 
 #[component]
-pub fn Card(card: Card, show_info: bool) -> impl IntoView {
+pub fn Card(card: Card, show_info: RwSignal<bool>) -> impl IntoView {
     view! {
-        <div class="card">
+        <div
+            class="card"
+            on:click=move |e| {
+                show_info.set(!show_info.get());
+            }
+        >
+
             <CardTitle title=card.title.clone() video=card.vidLink.clone() id=card.id/>
             <AnimatedShow
                 when=show_info

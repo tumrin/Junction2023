@@ -3,8 +3,7 @@
 @use "card/buttons.scss";
 
 .card {
-  width: 100%;
-  margin: 0 0.5rem;
+  margin: auto;
   &.next {
     animation: 1s slide_away forwards;
   }
