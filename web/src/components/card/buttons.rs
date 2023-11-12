@@ -34,11 +34,21 @@ pub fn Buttons(card: String) -> impl IntoView {
             let user1 = user.clone();
             view! {
                 <div class="buttons">
-                    <div class="button" on:click=move |_e| { button_action(&user, card.get(), ButtonAction::LikeButton) }>
+                    <div
+                        class="button"
+                        on:click=move |_e| {
+                            button_action(&user, card.get(), ButtonAction::LikeButton)
+                        }
+                    >
 
                         <Icon icon=Icon::from(BiLikeSolid) width="2em" height="2em"/>
                     </div>
-                    <div class="button" on:click=move |_e| { button_action(&user1, card.get(), ButtonAction::StartButton) }>
+                    <div
+                        class="button"
+                        on:click=move |_e| {
+                            button_action(&user1, card.get(), ButtonAction::StartButton)
+                        }
+                    >
 
                         <Icon icon=Icon::from(BsRocketTakeoffFill) width="2em" height="2em"/>
                     </div>
