@@ -5,6 +5,7 @@ mod card_title;
 use crate::components::card::card_info::CardInfo;
 use crate::components::card::card_title::CardTitle;
 use crate::components::profile::Profile;
+use crate::InfoContext;
 use leptos::leptos_dom::logging::console_log;
 use leptos::*;
 use serde::Deserialize;
@@ -20,10 +21,10 @@ pub struct Card {
 }
 
 #[component]
-pub fn Card(card: Card, show_info: bool, show_profile: bool) -> impl IntoView {
+pub fn Card(card: Card, show_profile: bool) -> impl IntoView {
+    let show_info = use_context::<InfoContext>().unwrap().0;
     view! {
         <div class="card">
-
             <AnimatedShow
                 when=show_profile
                 hide_delay=Duration::from_millis(500)
@@ -32,6 +33,7 @@ pub fn Card(card: Card, show_info: bool, show_profile: bool) -> impl IntoView {
             >
                 <Profile/>
             </AnimatedShow>
+
             <CardTitle title=card.title.clone() video=card.vidLink.clone() id=card.id/>
             <AnimatedShow
                 when=show_info

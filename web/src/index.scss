@@ -19,3 +19,22 @@ body {
   display: flex;
   align-items: center;
 }
+
+.next {
+  cursor: pointer;
+  color: $text-color;
+  margin-right: 20vw;
+}
+.previous {
+  cursor: pointer;
+  color: $text-color;
+  margin-left: 20vw;
+}
+@media only screen and (max-width: 1000px) {
+  .next {
+    display: none;
+  }
+  .previous {
+    display: none;
+  }
+}
